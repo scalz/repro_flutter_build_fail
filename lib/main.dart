@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
               AsyncData<List<String>>(value: final datas) => Text(
                   datas.isEmpty
                       ? 'no data'
-                      : controller.datas.value.toString(),
+                      : datas.toString(),
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
               AsyncError(error: final e) => Text('Error $e'),
@@ -88,9 +88,4 @@ class FilterSearchController<T> extends BeaconController {
     return datas.value;
   });
 
-  @override
-  void dispose() {
-    debugPrint('dispose FilterSearchController');
-    super.dispose();
-  }
 }
