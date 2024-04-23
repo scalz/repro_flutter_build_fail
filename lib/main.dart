@@ -67,17 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       : controller.filteredDatas.value.toString(),
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
-              AsyncError(error: final e) => Center(child: Text('Error $e')),
-              _ => const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 48,
-                      width: 48,
-                      child: CircularProgressIndicator(),
-                    ),
-                  ],
-                ),
+              AsyncError(error: final e) => Text('Error $e'),
+              _ => const CircularProgressIndicator(),
             },
           ],
         ),
@@ -119,12 +110,9 @@ class FilterSearchController<T> extends BeaconController {
     final text = searchText.value;
     if (text.isEmpty) return datas.value;
 
-    final result = <T>[];
-    for (final data in datas.value) {
-      if (filter?.call(data, text) ?? true) result.add(data);
-    }
-
-    return result;
+    return datas.value
+        .where((data) => filter?.call(data, text) ?? true)
+        .toList();
   });
 
   late final sortedDatas = B.derived<List<T>>(() {
